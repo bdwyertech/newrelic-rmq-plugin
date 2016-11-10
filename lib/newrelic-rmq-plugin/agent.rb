@@ -76,7 +76,6 @@ module NewRelicRMQPlugin
       # => RabbitMQ Configuration Status
       def env_status
         report_metric 'Status/Version', nil, rmq_manager.overview['rabbitmq_version']
-        report_metric 'Status/Cluster Name', nil, rmq_manager.overview['cluster_name']
         report_metric 'Status/Erlang Version', nil, rmq_manager.overview['erlang_version']
       end
 

@@ -1,3 +1,10 @@
-/Gemfile.lock
-/config/newrelic_plugin.yml
-.idea
+*~
+*#
+.#*
+\#*#
+.*.sw[a-z]
+*.un~
+pkg/
+vendor/
+config.json
+newrelic_plugin.yml
