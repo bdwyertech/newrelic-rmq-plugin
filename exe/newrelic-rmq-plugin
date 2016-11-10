@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+# encoding: UTF-8
+# NewRelic - RabbitMQ Plugin
+# Brian Dwyer - Intelligent Digital Services - 11/10/16
+
+lib = File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
+# => Catch Ctrl+C's to avoid stack traces
+Signal.trap('INT') { abort }
+
+require 'newrelic-rmq-plugin'
+
+# => Launch the Plugin
+NewRelicRMQPlugin::CLI.run(ARGV)

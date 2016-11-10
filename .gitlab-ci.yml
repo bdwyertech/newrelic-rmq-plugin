@@ -1,0 +1,36 @@
+before_script:
+  - ruby -v
+  - which ruby
+  - gem install bundler --no-ri --no-rdoc
+  - bundle install --jobs $(nproc) --path vendor/bundle
+
+test:Ruby 2.3:
+  image: ruby:2.3
+  cache:
+    paths:
+      - .bundle
+      - vendor/bundle
+  script:
+    - bundle exec rubocop
+  tags:
+    - ruby
+  except:
+    - tags
+
+release:Ruby 2.3:
+  image: ruby:2.3
+  cache:
+    paths:
+      - .bundle
+      - vendor/bundle
+  script:
+    - bundle exec rubocop
+    - bundle exec rake build
+  artifacts:
+    name: "newrelic-rmq-plugin-$CI_BUILD_REF_NAME"
+    paths:
+      - pkg/*.gem
+  tags:
+    - ruby
+  only:
+    - tags
