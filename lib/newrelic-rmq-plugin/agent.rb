@@ -45,9 +45,9 @@ module NewRelicRMQPlugin
 
       # => Global Metrics
       def global_metrics # rubocop: disable AbcSize
-        report_metric 'Global Queue Size/Total', 'Queued Messages', rmq_manager.overview['queue_totals']['messages'] || 0
-        report_metric 'Global Queue Size/Ready', 'Queued Messages', rmq_manager.overview['queue_totals']['messages_ready'] || 0
-        report_metric 'Global Queue Size/Unacked', 'Queued Messages', rmq_manager.overview['queue_totals']['messages_unacknowledged'] || 0
+        report_metric 'Global Queue Size/Total', 'messages', rmq_manager.overview['queue_totals']['messages'] || 0
+        report_metric 'Global Queue Size/Ready', 'messages', rmq_manager.overview['queue_totals']['messages_ready'] || 0
+        report_metric 'Global Queue Size/Unacked', 'messages', rmq_manager.overview['queue_totals']['messages_unacknowledged'] || 0
 
         report_metric 'Global Message Rate/Deliver', 'messages/sec', rate_for('deliver')
         report_metric 'Global Message Rate/Acknowledge', 'messages/sec', rate_for('ack')
@@ -63,9 +63,9 @@ module NewRelicRMQPlugin
         rmq_manager.queues.each do |queue|
           queue_name = queue['name'].split('queue.').last
 
-          report_metric "Queue Size/#{queue_name}/Total", 'Queued Messages', queue['messages']
-          report_metric "Queue Size/#{queue_name}/Ready", 'Queued Messages', queue['messages_ready']
-          report_metric "Queue Size/#{queue_name}/Unacked", 'Queued Messages', queue['messages_unacknowledged']
+          report_metric "Queue Size/#{queue_name}/Total", 'messages', queue['messages']
+          report_metric "Queue Size/#{queue_name}/Ready", 'messages', queue['messages_ready']
+          report_metric "Queue Size/#{queue_name}/Unacked", 'messages', queue['messages_unacknowledged']
 
           report_metric "Message Rate/#{queue_name}/Deliver", 'messages/sec', per_queue_rate_for('deliver', queue)
           report_metric "Message Rate/#{queue_name}/Acknowledge", 'messages/sec', per_queue_rate_for('ack', queue)
