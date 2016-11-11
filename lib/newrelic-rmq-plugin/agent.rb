@@ -35,6 +35,9 @@ module NewRelicRMQPlugin
 
         # => Grab Environment Information
         env_status
+
+        # => Reset
+        @overview = nil
       end
 
       private
@@ -45,15 +48,15 @@ module NewRelicRMQPlugin
 
       # => Global Metrics
       def global_metrics # rubocop: disable AbcSize
-        report_metric 'Global Queue Size/Total', 'messages', rmq_manager.overview['queue_totals']['messages'] || 0
-        report_metric 'Global Queue Size/Ready', 'messages', rmq_manager.overview['queue_totals']['messages_ready'] || 0
-        report_metric 'Global Queue Size/Unacked', 'messages', rmq_manager.overview['queue_totals']['messages_unacknowledged'] || 0
+        report_metric 'Global Queue Size/Total', 'messages', overview['queue_totals']['messages']
+        report_metric 'Global Queue Size/Ready', 'messages', overview['queue_totals']['messages_ready']
+        report_metric 'Global Queue Size/Unacked', 'messages', overview['queue_totals']['messages_unacknowledged']
 
         report_metric 'Global Message Rate/Deliver', 'messages/sec', rate_for('deliver')
         report_metric 'Global Message Rate/Acknowledge', 'messages/sec', rate_for('ack')
         report_metric 'Global Message Rate/Return', 'messages/sec', rate_for('return_unroutable')
 
-        rmq_manager.overview['object_totals'].each do |obj|
+        overview['object_totals'].each do |obj|
           report_metric "Global Object Totals/#{obj[0].capitalize}", nil, obj[1]
         end
       end
@@ -75,13 +78,14 @@ module NewRelicRMQPlugin
 
       # => RabbitMQ Configuration Status
       def env_status
-        report_metric 'Status/Version', nil, rmq_manager.overview['rabbitmq_version']
-        report_metric 'Status/Erlang Version', nil, rmq_manager.overview['erlang_version']
+        report_metric 'Status/Version', nil, overview['rabbitmq_version']
+        report_metric 'Status/Erlang Version', nil, overview['erlang_version']
       end
 
       #
       # => Helper Methods
       #
+
       def per_queue_rate_for(type, queue)
         msg_stats = queue['message_stats']
 
@@ -104,9 +108,18 @@ module NewRelicRMQPlugin
         end
       end
 
+      #
+      # => RabbitMQ
+      #
+
       # => Define the RabbitMQ Connection
       def rmq_manager
         @rmq_manager ||= ::RabbitMQManager.new(management_api_url, verify: verify_ssl)
+      end
+
+      # => Only pull this once per Poll Cycle
+      def overview
+        @overview ||= rmq_manager.overview
       end
     end
 
