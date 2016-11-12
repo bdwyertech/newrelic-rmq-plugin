@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    newrelic-rmq-plugin (0.1.1)
+    newrelic-rmq-plugin (0.1.5)
       mixlib-cli (~> 1.7)
       newrelic_plugin
       rabbitmq_manager (~> 0.3.0)

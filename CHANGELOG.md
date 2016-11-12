@@ -2,6 +2,14 @@ NewRelic-RabbitMQ-Plugin Changelog
 =========================
 This file is used to list changes made in each version of the `newrelic-rabbitmq-plugin` gem.
 
+v0.1.5 (2016-11-12)
+-------------------
+- Revert
+
+v0.1.4 (2016-11-12)
+-------------------
+- Swap Queue Size to a Count Metric
+
 v0.1.3 (2016-11-10)
 -------------------
 - Increase efficiency of polling
