@@ -33,9 +33,6 @@ module NewRelicRMQPlugin
         # => Collect Global Metrics
         global_metrics
 
-        # => Grab Environment Information
-        env_status
-
         # => Reset
         @overview = nil
       end
@@ -49,8 +46,8 @@ module NewRelicRMQPlugin
       # => Global Metrics
       def global_metrics # rubocop: disable AbcSize
         report_metric 'Global Queue Size/Total', 'messages', overview['queue_totals']['messages']
-        report_metric 'Global Queue Size/Ready', 'messages', overview['queue_totals']['messages_ready']
-        report_metric 'Global Queue Size/Unacked', 'messages', overview['queue_totals']['messages_unacknowledged']
+        report_metric 'Global Queue Size Components/Ready', 'messages', overview['queue_totals']['messages_ready']
+        report_metric 'Global Queue Size Components/Unacked', 'messages', overview['queue_totals']['messages_unacknowledged']
 
         report_metric 'Global Message Rate/Deliver', 'messages/sec', rate_for('deliver')
         report_metric 'Global Message Rate/Acknowledge', 'messages/sec', rate_for('ack')
@@ -67,38 +64,21 @@ module NewRelicRMQPlugin
           queue_name = queue['name'].split('queue.').last
 
           report_metric "Queue Size/#{queue_name}/Total", 'messages', queue['messages']
-          report_metric "Queue Size/#{queue_name}/Ready", 'messages', queue['messages_ready']
-          report_metric "Queue Size/#{queue_name}/Unacked", 'messages', queue['messages_unacknowledged']
+          report_metric "Queue Size Components/#{queue_name}/Ready", 'messages', queue['messages_ready']
+          report_metric "Queue Size Components/#{queue_name}/Unacked", 'messages', queue['messages_unacknowledged']
 
-          report_metric "Message Rate/#{queue_name}/Deliver", 'messages/sec', per_queue_rate_for('deliver', queue)
-          report_metric "Message Rate/#{queue_name}/Acknowledge", 'messages/sec', per_queue_rate_for('ack', queue)
-          report_metric "Message Rate/#{queue_name}/Return", 'messages/sec', per_queue_rate_for('return_unroutable', queue)
+          report_metric "Message Rate/#{queue_name}/Deliver", 'messages/sec', rate_for('deliver', queue)
+          report_metric "Message Rate/#{queue_name}/Acknowledge", 'messages/sec', rate_for('ack', queue)
+          report_metric "Message Rate/#{queue_name}/Return", 'messages/sec', rate_for('return_unroutable', queue)
         end
-      end
-
-      # => RabbitMQ Configuration Status
-      def env_status
-        report_metric 'Status/Version', nil, overview['rabbitmq_version']
-        report_metric 'Status/Erlang Version', nil, overview['erlang_version']
       end
 
       #
       # => Helper Methods
       #
 
-      def per_queue_rate_for(type, queue)
-        msg_stats = queue['message_stats']
-
-        if msg_stats.is_a?(Hash)
-          details = msg_stats["#{type}_details"]
-          details ? details['rate'] : 0
-        else
-          0
-        end
-      end
-
-      def rate_for(type)
-        msg_stats = rmq_manager.overview['message_stats']
+      def rate_for(type, source = overview)
+        msg_stats = source['message_stats']
 
         if msg_stats.is_a?(Hash)
           details = msg_stats["#{type}_details"]

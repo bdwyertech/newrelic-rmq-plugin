@@ -1,6 +1,12 @@
 NewRelic-RabbitMQ-Plugin Changelog
 =========================
-This file is used to list changes made in each version of the `newrelic-rabbitmq-plugin` gem.
+This file is used to list changes made in each version of the `newrelic-rmq-plugin` gem.
+
+v0.1.6 (2016-11-28)
+-------------------
+- Break Queue Size Totals out so that we can use the 'Stacked Area' Chart Type
+- Strip out configuration reporting metrics for RabbitMQ & Erlang version.  They might contain non-numeric values.
+- Clean up & consolidate rate_for definition
 
 v0.1.5 (2016-11-12)
 -------------------
