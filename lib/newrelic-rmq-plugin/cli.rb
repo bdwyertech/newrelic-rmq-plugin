@@ -41,7 +41,7 @@ module NewRelicRMQPlugin
       cli.parse_options(argv)
 
       # => Parse JSON Config File (If Specified and Exists)
-      json_config = Util.parse_json_config(cli.config[:config_file] || Config.config_file)
+      json_config = Util.parse_json(cli.config[:config_file] || Config.config_file)
 
       # => Grab the Default Values
       default = Config.options

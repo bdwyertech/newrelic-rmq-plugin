@@ -1,6 +1,6 @@
 # Encoding: UTF-8
 #
-# Gem Name:: cloudimages-rundeck
+# Gem Name:: newrelic-rmq-plugin
 # Helper:: Configuration
 #
 # Author: Eli Fatsi - https://www.viget.com/articles/easy-gem-configuration-variables-with-defaults
@@ -12,7 +12,7 @@ module Configuration
   #
   # => Provides a method to configure an Application
   # => Example:
-  #      DeployInfo::Config.setup do |cfg|
+  #      NewRelicRMQPlugin::Config.setup do |cfg|
   #        cfg.config_file = 'abc.json'
   #        cfg.app_name = 'GemBase'
   #      end

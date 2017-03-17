@@ -21,7 +21,7 @@ module NewRelicRMQPlugin
     ########################
 
     # => Define JSON Parser
-    def parse_json_config(file = nil, symbolize = true)
+    def parse_json(file = nil, symbolize = true)
       return unless file && ::File.exist?(file.to_s)
       begin
         ::JSON.parse(::File.read(file.to_s), symbolize_names: symbolize)
@@ -31,7 +31,7 @@ module NewRelicRMQPlugin
     end
 
     # => Define JSON Writer
-    def write_json_config(file, object)
+    def write_json(file, object)
       return unless file && object
       begin
         File.open(file, 'w') { |f| f.write(JSON.pretty_generate(object)) }
@@ -58,14 +58,6 @@ module NewRelicRMQPlugin
       # => Serialize a CSV String into an Array
       return unless csv && csv.is_a?(String)
       csv.split(',')
-    end
-
-    def serialize_revisions(branches, tags)
-      # => Serialize Branches/Tags into JSON Array
-      # => Branches = String, Tags = Key/Value
-      branches = branches.map(&:name).sort_by(&:downcase)
-      tags = tags.map(&:name).sort_by(&:downcase).reverse.map { |tag| { name: "Tag: #{tag}", value: tag } }
-      JSON.pretty_generate(branches + tags)
     end
   end
 end
