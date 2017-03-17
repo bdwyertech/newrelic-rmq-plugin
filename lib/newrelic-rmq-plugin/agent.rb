@@ -33,6 +33,9 @@ module NewRelicRMQPlugin
         # => Collect Global Metrics
         global_metrics
 
+        # => Collect Cluster Status
+        cluster_status
+
         # => Reset
         @overview = nil
       end
@@ -71,6 +74,12 @@ module NewRelicRMQPlugin
           report_metric "Message Rate/#{queue_name}/Acknowledge", 'messages/sec', rate_for('ack', queue)
           report_metric "Message Rate/#{queue_name}/Return", 'messages/sec', rate_for('return_unroutable', queue)
         end
+      end
+
+      # => Cluster Status Monitoring
+      def cluster_status
+        report_metric 'Cluster Status/Partitioned', 'nodes', rmq_manager.nodes.count { |n| Array(n['partitions']).any? }
+        report_metric 'Cluster Status/Stopped', 'nodes', rmq_manager.nodes.count { |n| !n['running'] }
       end
 
       #
