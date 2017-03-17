@@ -1,6 +1,7 @@
 # newrelic-rmq-plugin
 * NewRelic RabbitMQ Plugin Agent
 * Polls RabbitMQ for Metrics & Ships to NewRelic
+* Monitors for Cluster Partitions & Stopped Nodes
 
 ## Background
 This is based primarily off of the [RedBubble NewRelic RabbitMQ Agent](https://github.com/redbubble/newrelic-rabbitmq-agent)
@@ -8,6 +9,24 @@ The idea was to package this is a gem for simplified deployment, and add/adjust 
 
 ## Running as a Service
 You'll likely want to run this as a service, `SystemD` or `Upstart` will likely be your friend in this regard.
+
+#### Upstart Example
+```bash
+description 'NewRelic RabbitMQ Agent'
+start on started network-interface INTERFACE!=lo
+stop on runlevel [!2345]
+
+setuid nobody
+setgid nogroup
+
+respawn
+respawn limit 5 2
+
+script
+  exec newrelic-rmq-plugin --nr-cfg-file /etc/newrelic/rabbitmq.yml
+end script
+```
+
 
 ## Security
 You should lock down permissions on all configuration files in this project to only the user which this runs as...
