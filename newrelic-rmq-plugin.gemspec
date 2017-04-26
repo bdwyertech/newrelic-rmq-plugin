@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['bdwyer@IEEE.org']
 
   spec.summary       = %(NewRelic RabbitMQ Plugin)
-  spec.homepage      = 'https://github.com/bdwyertech/newrelic-rabbitmq-plugin'
+  spec.homepage      = 'https://github.com/bdwyertech/newrelic-rmq-plugin'
   spec.license       = 'MIT'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
