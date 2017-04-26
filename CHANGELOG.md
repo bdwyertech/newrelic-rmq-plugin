@@ -2,7 +2,8 @@ NewRelic-RabbitMQ-Plugin Changelog
 =========================
 This file is used to list changes made in each version of the `newrelic-rmq-plugin` gem.
 
-v0.1.9 (2017-04-25)
+
+v0.1.11 (2017-04-25)
 -------------------
 - Automated RubyGems deployment from CI
 
