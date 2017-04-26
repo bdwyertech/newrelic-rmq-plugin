@@ -4,8 +4,8 @@ before_script:
   - gem install bundler --no-ri --no-rdoc
   - bundle install --jobs $(nproc) --path vendor/bundle
 
-test:Ruby 2.3:
-  image: ruby:2.3
+test:Ruby 2.4:
+  image: ruby:2.4
   cache:
     paths:
       - .bundle
@@ -17,8 +17,8 @@ test:Ruby 2.3:
   except:
     - tags
 
-release:Ruby 2.3:
-  image: ruby:2.3
+release:Ruby 2.4:
+  image: ruby:2.4
   cache:
     paths:
       - .bundle

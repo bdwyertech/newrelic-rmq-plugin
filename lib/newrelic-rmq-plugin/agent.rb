@@ -1,5 +1,5 @@
 # Encoding: UTF-8
-# rubocop: disable LineLength
+# rubocop: disable LineLength, Lint/AmbiguousBlockAssociation
 #
 # Gem Name:: newrelic-rmq-plugin
 # NewRelicRMQPlugin:: Agent
