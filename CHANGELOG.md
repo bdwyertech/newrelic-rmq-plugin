@@ -2,6 +2,14 @@ NewRelic-RabbitMQ-Plugin Changelog
 =========================
 This file is used to list changes made in each version of the `newrelic-rmq-plugin` gem.
 
+v0.1.8 (2017-04-25)
+-------------------
+- Remove erroneous dependencies
+
+v0.1.7 (2017-03-17)
+-------------------
+- Add ability to detect cluster issues
+
 v0.1.6 (2016-11-28)
 -------------------
 - Break Queue Size Totals out so that we can use the 'Stacked Area' Chart Type

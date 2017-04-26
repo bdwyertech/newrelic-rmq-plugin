@@ -9,8 +9,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
-require 'rubygems'
-require 'bundler/setup'
 require 'newrelic_plugin'
 require 'rabbitmq_manager'
 require 'uri'
