@@ -26,7 +26,6 @@ release:Ruby 2.4:
   script:
     - gem install dpl --no-document
     - bundle exec rubocop
-    - bundle exec rake build
     - dpl --provider=rubygems --api-key=$RUBYGEMS_API_KEY
   artifacts:
     name: "newrelic-rmq-plugin-$CI_BUILD_REF_NAME"
